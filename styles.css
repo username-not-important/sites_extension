@@ -1,0 +1,119 @@
+/* =========================================
+   0. Typography Variables & Global Application
+   ========================================= */
+:root {
+    --font-primary: "ui-sans-serif", -apple-system, "system-ui", "Segoe UI", "Roboto", "Noto Sans", "Helvetica", "Apple Color Emoji", "Arial", "sans-serif", "Segoe UI Emoji", "Segoe UI Symbol", "Segoe UI Emoji";
+    --font-mono: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+/* Enforce the primary system font stack across the chat interface */
+.chat-index-wrapper {
+    font-family: var(--font-primary) !important;
+}
+
+/* =========================================
+   1. Text Area Adjustments (LTR & Typography)
+   ========================================= */
+textarea.modern-textarea {
+    direction: ltr !important;
+    text-align: left !important;
+    font-family: var(--font-primary) !important;
+}
+
+/* Re-align toolbar items to match LTR flow */
+.toolbar-left {
+    justify-content: flex-start !important;
+}
+.toolbar-right {
+    justify-content: flex-end !important;
+}
+
+/* =========================================
+   2. Clean Up Clutter
+   ========================================= */
+.footer-disclaimer {
+    display: none !important;
+}
+
+/* =========================================
+   3. Expanded Width Layout
+   ========================================= */
+.chat-message-content, 
+.input-footer-wrapper-desktop {
+    max-width: 75rem !important; 
+    width: 95% !important;
+}
+
+.modern-chat-input {
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+/* =========================================
+   4. Flat, Professional Gemini-Style Workspace
+   ========================================= */
+
+/* Light Mode Canvas */
+.chat-index-wrapper {
+    background-color: #f8f9fa !important; 
+    background-image: none !important;
+    box-shadow: none !important;
+}
+
+/* Dark Mode Canvas (Gemini Obsidian) */
+.dark .chat-index-wrapper {
+    background-color: #131314 !important; 
+    background-image: none !important;    
+    box-shadow: none !important;          
+}
+
+.chat-index-message-wrapper-assistant {
+    padding: 1rem !important;
+    background: #1b1b1b !important;
+}
+
+/* Smooth background blending overlays for mobile scrolls */
+.input-footer-wrapper-mobile {
+    background: linear-gradient(rgba(248, 249, 250, 0) 0%, rgba(248, 249, 250, 0.8) 30%, #f8f9fa 85%) !important;
+}
+.dark .input-footer-wrapper-mobile {
+    background: linear-gradient(rgba(19, 19, 20, 0) 0%, rgba(19, 19, 20, 0.8) 30%, #131314 85%) !important;
+}
+
+/* =========================================
+   5. Minimalist Input Bar
+   ========================================= */
+/* Light Mode Container */
+div.input-container-wrapper {
+    border-radius: 1.5rem !important;
+    border: 1px solid #e3e3e3 !important; 
+    box-shadow: none !important;
+    transition: all 0.2s ease !important;
+    background-color: #ffffff !important;
+}
+
+/* Dark Mode Container */
+.dark div.input-container-wrapper {
+    border: 1px solid #3c4043 !important; 
+    box-shadow: none !important;
+    background-color: #1e1e1f !important; 
+}
+
+/* Focused State: Subtle Blue Highlight Ring */
+.is-focused div.input-container-wrapper {
+    border-color: #1a73e8 !important; 
+    box-shadow: 0 0 0 1px #1a73e8 !important;
+}
+
+.dark .is-focused div.input-container-wrapper {
+    border-color: #a8c7fa !important; 
+    box-shadow: 0 0 0 1px #a8c7fa !important;
+}
+
+/* Flat Recording States */
+.is-recording .input-toolbar {
+    background-color: rgba(0, 0, 0, 0.02) !important;
+}
+.dark .is-recording .input-toolbar {
+    background-color: rgba(255, 255, 255, 0.02) !important;
+}
