@@ -80,7 +80,7 @@ textarea.modern-textarea {
    ========================================= */
 .chat-index-message-wrapper-assistant {
     padding: 1.25rem !important;
-    background: #1e1e1f !important; /* Adjusted slightly from #1b1b1b to match standard dark container elements */
+    background: #1e1e1e29 !important; /* Adjusted slightly from #1b1b1b to match standard dark container elements */
     border-radius: 1rem !important;
 }
 
@@ -90,7 +90,7 @@ textarea.modern-textarea {
 .dark .vue-recycle-scroller__item-view.hover .non-inverted,
 .dark .vue-recycle-scroller__item-view:hover .non-inverted {
     border-color: transparent !important;
-    background-color: rgba(255, 255, 255, 0.02) !important; /* Soft, clean micro-interactive lift */
+    background-color: #1e1e1e40 !important; /* Soft, clean micro-interactive lift */
     transition: background-color 0.2s ease !important;
 }
 
