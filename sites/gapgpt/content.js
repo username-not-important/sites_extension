@@ -1,6 +1,6 @@
 (function () {
   const enhancer = window.siteEnhancer;
-  const messageSelector = '.q-infinite-scroll > [id^="message-"]';
+  const messageSelector = '.q-infinite-scroll > [id^="message-"] .user-chat-box, .q-infinite-scroll > [id^="message-"] .bot-chat-box';
   const controlsClass = 'site-enhancer-message-nav';
 
   function getMessages() {
@@ -37,6 +37,7 @@
 
     const controls = document.createElement('div');
     controls.className = controlsClass;
+    controls.dataset.messageType = message.classList.contains('user-chat-box') ? 'user' : 'assistant';
 
     controls.append(
       createButton('previous', 'Scroll to previous message', function () {
