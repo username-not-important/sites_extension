@@ -1,14 +1,20 @@
 {
   "manifest_version": 3,
-  "name": "AvalAI Chat Enhancer",
+  "name": "AI Sites Enhancer",
   "version": "1.0",
-  "description": "Custom enhancements for AvalAI Chat",
+  "description": "Custom enhancements for supported AI websites",
   "permissions": ["scripting", "activeTab"],
   "content_scripts": [
     {
       "matches": ["https://chat.avalai.ir/chat*"],
-      "js": ["content.js"],
-      "css": ["styles.css"],
+      "js": ["content.js", "sites/avalai/content.js"],
+      "css": ["sites/avalai/styles.css"],
+      "run_at": "document_start"
+    },
+    {
+      "matches": ["https://gapgpt.app/*"],
+      "js": ["content.js", "sites/gapgpt/content.js"],
+      "css": ["sites/gapgpt/styles.css"],
       "run_at": "document_start"
     }
   ],

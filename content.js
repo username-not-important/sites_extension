@@ -1,7 +1,16 @@
-// Your custom JavaScript will go here
-console.log("AvalAI Chat Enhancer loaded!");
+(function () {
+  const siteNameByHost = {
+    'chat.avalai.ir': 'AvalAI',
+    'gapgpt.app': 'GapGPT',
+  };
+  const siteName = siteNameByHost[window.location.hostname] || 'AI site';
 
-// Example: You can add code here
-document.addEventListener('DOMContentLoaded', function() {
-  console.log("Page loaded, enhancements active");
-});
+  window.siteEnhancer = {
+    siteName,
+    log(message) {
+      console.log(`[Site Enhancer:${siteName}] ${message}`);
+    },
+  };
+
+  window.siteEnhancer.log('shared runtime loaded');
+})();
