@@ -124,67 +124,50 @@ pre:has(> .site-enhancer-code-footer) {
   align-items: center;
   justify-content: center;
 }
-
 .site-enhancer-inline-code-copy {
   position: absolute;
-  width: 1rem;
-  height: 1rem;
-  border: 1px solid var(--border-light, rgba(127,127,127,.22));
+  
   border-radius: .25rem;
   background: var(--message-surface, rgba(127,127,127,.16));
   color: var(--text-secondary, currentColor);
-  cursor: pointer;
-  font: 700 .65rem/1 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  opacity: 0;
-  padding: 0;
-  transform: scale(.9);
-  transition: opacity 120ms ease, transform 120ms ease, background-color 120ms ease;
   z-index: 9999;
-  pointer-events: none;
-}
-
-.site-enhancer-inline-code-copy[data-visible] {
-  opacity: 1;
-  transform: scale(1);
-  pointer-events: auto;
-}
-
-.site-enhancer-inline-code-copy:hover {
-  background: var(--message-highlighted, rgba(127,127,127,.28));
-}
-
-.site-enhancer-inline-code-copy::after {
-  content: "Copy";
-  position: absolute;
-  right: 50%;
-  bottom: calc(100% + .35rem);
-  border-radius: .35rem;
-  background: var(--text-primary,#111827);
-  color: var(--inverted-text,#fff);
-  font-size: .68rem;
-  font-weight: 600;
-  line-height: 1;
+  
+  /* Initial state: invisible and unclickable */
   opacity: 0;
-  padding: .3rem .4rem;
   pointer-events: none;
-  transform: translateX(50%) translateY(.15rem);
-  transition: opacity 120ms ease, transform 120ms ease;
-  white-space: nowrap;
+  transform: translateX(-5px); /* Slide in effect */
+  transition: opacity 150ms ease, transform 150ms ease;
+  
+  /* Styling */
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
 }
 
-.site-enhancer-inline-code-copy:hover::after {
+/* When visible */
+.site-enhancer-inline-code-copy[data-visible="true"] {
   opacity: 1;
-  transform: translateX(50%) translateY(0);
+  pointer-events: auto;
+  transform: translateX(0);
 }
 
-.site-enhancer-inline-code-copy[data-copy-state="copied"]::after {
-  content: "Copied";
+/* Hover effect */
+.site-enhancer-inline-code-copy:hover {
+  background: #363636;
 }
 
-.site-enhancer-inline-code-copy[data-copy-state="failed"]::after {
-  content: "Failed";
+/* Feedback state */
+.site-enhancer-inline-code-copy[data-copy-state="copied"]::before {
+  content: "✓";
+  color: green;
 }
-
 
 @media (max-width: 64rem) {
   .site-enhancer-message-nav {

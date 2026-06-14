@@ -3,11 +3,11 @@
   const messageSelector = '.q-infinite-scroll > [id^="message-"] .user-chat-box, .q-infinite-scroll > [id^="message-"] .bot-chat-box';
   const controlsClass = 'site-enhancer-message-nav';
   const bottomCopyClass = 'site-enhancer-code-footer';
-  const inlineCodeClass = 'site-enhancer-inline-code';
   const inlineCopyClass = 'site-enhancer-inline-code-copy';
 
-  let floatingCopyButton = null;
   let currentCodeElement = null;
+  let hideTimeout = null;
+  let floatingCopyButton = null;
 
   function getMessages() {
     return Array.from(document.querySelectorAll(messageSelector));
@@ -109,118 +109,75 @@
     });
   }
 
-  function copyText(text) {
-    if (navigator.clipboard?.writeText) {
-      return navigator.clipboard.writeText(text);
-    }
-
-    const textArea = document.createElement('textarea');
-    textArea.value = text;
-    textArea.style.position = 'fixed';
-    textArea.style.opacity = '0';
-    document.body.appendChild(textArea);
-    textArea.select();
-    document.execCommand('copy');
-    textArea.remove();
-    return Promise.resolve();
-  }
-
-  function setInlineCopyFeedback(button, text) {
-    button.dataset.copyState = text;
-
-    window.setTimeout(() => {
-      if (button.dataset.copyState === text) {
-        delete button.dataset.copyState;
-      }
-    }, 1200);
-  }
-
-  function createFloatingCopyButton() {
+  function getOrCreateFloatingButton() {
+    if (floatingCopyButton) return floatingCopyButton;
+    
     const button = document.createElement('button');
     button.className = inlineCopyClass;
     button.type = 'button';
     button.textContent = '⧉';
-
-    button.addEventListener('click', function (event) {
-      event.preventDefault();
-      event.stopPropagation();
-
+    
+    // Keep it visible if we are hovering on the button itself
+    button.addEventListener('pointerenter', () => clearTimeout(hideTimeout));
+    button.addEventListener('pointerleave', () => scheduleHide());
+    
+    button.addEventListener('click', (e) => {
+      e.preventDefault();
       if (!currentCodeElement) return;
-
-      const codeText = currentCodeElement.textContent.trim();
-
-      copyText(codeText)
-        .then(() => setInlineCopyFeedback(button, 'copied'))
-        .catch(() => setInlineCopyFeedback(button, 'failed'));
+      
+      navigator.clipboard.writeText(currentCodeElement.textContent.trim())
+        .then(() => {
+          button.dataset.copyState = 'copied';
+          setTimeout(() => delete button.dataset.copyState, 1500);
+        });
     });
-
+    
     document.body.appendChild(button);
-
+    floatingCopyButton = button;
     return button;
   }
 
   function positionButton(codeElement) {
+    const btn = getOrCreateFloatingButton();
     const rect = codeElement.getBoundingClientRect();
-
-    floatingCopyButton.style.left =
-      window.scrollX + rect.right - floatingCopyButton.offsetWidth + 'px';
-
-    floatingCopyButton.style.top =
-      window.scrollY + rect.top - floatingCopyButton.offsetHeight * 0.5 + rect.height * 0.5 + 'px';
+    
+    // Position it top-right of the element (outside the text flow)
+    // We use scrollX/Y to keep it anchored to the viewport
+    btn.style.left = `${window.scrollX + rect.right + 4}px`;
+    btn.style.top = `${window.scrollY + rect.top - 2}px`;
   }
 
-  function showButton(codeElement) {
-    currentCodeElement = codeElement;
-    positionButton(codeElement);
-    floatingCopyButton.dataset.visible = 'true';
+  function scheduleHide() {
+    hideTimeout = setTimeout(() => {
+      floatingCopyButton.dataset.visible = 'false';
+      currentCodeElement = null;
+    }, 200); // 200ms grace period to move mouse to button
   }
 
-  function hideButton() {
-    currentCodeElement = null;
-    delete floatingCopyButton.dataset.visible;
-  }
+  function initDelegation() {
+    // Use event delegation on the document for efficiency
+    document.addEventListener('pointerenter', (e) => {
+      const code = e.target.closest('.markdown-container code:not(pre code)');
+      if (!code) return;
+      
+      clearTimeout(hideTimeout);
+      currentCodeElement = code;
+      
+      const btn = getOrCreateFloatingButton();
+      positionButton(code);
+      btn.dataset.visible = 'true';
+    }, true);
 
-  function enhanceInlineCode(codeElement) {
-    if (
-      codeElement.closest('pre') ||
-      codeElement.classList.contains(inlineCodeClass)
-    ) {
-      return;
-    }
-
-    codeElement.classList.add(inlineCodeClass);
-
-    codeElement.addEventListener('pointerenter', () => {
-      showButton(codeElement);
-    });
-
-    codeElement.addEventListener('pointerleave', () => {
-      hideButton();
-    });
-  }
-
-  function refreshInlineCodeCopyButtons() {
-    document.querySelectorAll('.markdown-container code').forEach(enhanceInlineCode);
-  }
-
-  function initInlineCopy() {
-    floatingCopyButton = createFloatingCopyButton();
-
-    window.addEventListener('scroll', () => {
-      if (currentCodeElement) positionButton(currentCodeElement);
-    });
-
-    window.addEventListener('resize', () => {
-      if (currentCodeElement) positionButton(currentCodeElement);
-    });
-
-    refreshInlineCodeCopyButtons();
+    document.addEventListener('pointerleave', (e) => {
+      if (e.target.closest('.markdown-container code:not(pre code)')) {
+        scheduleHide();
+      }
+    }, true);
   }
 
   function refreshEnhancements() {
     refreshMessageNavigation();
     refreshCodeCopyButtons();
-    refreshInlineCodeCopyButtons();
   }
 
   function observeMessages() {
@@ -238,7 +195,7 @@
     document.documentElement.dataset.siteEnhancer = 'gapgpt';
     refreshEnhancements();
     observeMessages();
-    initInlineCopy();
+    initDelegation();
 
     enhancer?.log('GapGPT enhancements loaded');
   }
