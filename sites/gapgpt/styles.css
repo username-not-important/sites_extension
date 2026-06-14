@@ -97,6 +97,34 @@
   outline-offset: 2px;
 }
 
+pre:has(> .site-enhancer-code-footer) {
+  overflow: hidden;
+}
+
+.site-enhancer-code-footer {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  justify-content: flex-end;
+  padding: 0.25rem 0.35rem;
+  background: var(--highlight-header, rgba(47, 47, 47, 0.96));
+  border-top: 1px solid var(--border-light, rgba(255, 255, 255, 0.1));
+  z-index: 2;
+}
+
+.site-enhancer-code-copy-bottom {
+  position: static !important;
+  min-width: 2rem !important;
+  min-height: 2rem !important;
+  color: inherit;
+}
+
+.site-enhancer-code-copy-bottom .q-btn__content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 @media (max-width: 64rem) {
   .site-enhancer-message-nav {
     top: 0rem;

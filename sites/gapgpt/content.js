@@ -2,6 +2,7 @@
   const enhancer = window.siteEnhancer;
   const messageSelector = '.q-infinite-scroll > [id^="message-"] .user-chat-box, .q-infinite-scroll > [id^="message-"] .bot-chat-box';
   const controlsClass = 'site-enhancer-message-nav';
+  const bottomCopyClass = 'site-enhancer-code-footer';
 
   function getMessages() {
     return Array.from(document.querySelectorAll(messageSelector));
@@ -63,9 +64,54 @@
     });
   }
 
+  function getTopCopyButton(codeBlock) {
+    return codeBlock.querySelector('.code-header button[onclick*="copyFunc"], .code-header button[aria-label*="copy" i], .code-header button[title*="copy" i]');
+  }
+
+  function addBottomCopyButton(codeBlock) {
+    if (codeBlock.querySelector(`:scope > .${bottomCopyClass}`)) {
+      return;
+    }
+
+    const topCopyButton = getTopCopyButton(codeBlock);
+
+    if (!topCopyButton) {
+      return;
+    }
+
+    const footer = document.createElement('div');
+    footer.className = bottomCopyClass;
+
+    const bottomCopyButton = topCopyButton.cloneNode(true);
+    bottomCopyButton.classList.add('site-enhancer-code-copy-bottom');
+    bottomCopyButton.removeAttribute('style');
+    bottomCopyButton.removeAttribute('onclick');
+    bottomCopyButton.title = topCopyButton.title || 'Copy code';
+    bottomCopyButton.setAttribute('aria-label', bottomCopyButton.getAttribute('aria-label') || 'Copy code');
+    bottomCopyButton.addEventListener('click', function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+      topCopyButton.click();
+    });
+
+    footer.appendChild(bottomCopyButton);
+    codeBlock.appendChild(footer);
+  }
+
+  function refreshCodeCopyButtons() {
+    document.querySelectorAll('pre').forEach(function (codeBlock) {
+      addBottomCopyButton(codeBlock);
+    });
+  }
+
+  function refreshEnhancements() {
+    refreshMessageNavigation();
+    refreshCodeCopyButtons();
+  }
+
   function observeMessages() {
     const observer = new MutationObserver(function () {
-      refreshMessageNavigation();
+      refreshEnhancements();
     });
 
     observer.observe(document.body, {
@@ -76,7 +122,7 @@
 
   function init() {
     document.documentElement.dataset.siteEnhancer = 'gapgpt';
-    refreshMessageNavigation();
+    refreshEnhancements();
     observeMessages();
     enhancer?.log('GapGPT enhancements loaded');
   }
