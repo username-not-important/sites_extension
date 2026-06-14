@@ -3,6 +3,11 @@
   const messageSelector = '.q-infinite-scroll > [id^="message-"] .user-chat-box, .q-infinite-scroll > [id^="message-"] .bot-chat-box';
   const controlsClass = 'site-enhancer-message-nav';
   const bottomCopyClass = 'site-enhancer-code-footer';
+  const inlineCodeClass = 'site-enhancer-inline-code';
+  const inlineCopyClass = 'site-enhancer-inline-code-copy';
+
+  let floatingCopyButton = null;
+  let currentCodeElement = null;
 
   function getMessages() {
     return Array.from(document.querySelectorAll(messageSelector));
@@ -104,9 +109,118 @@
     });
   }
 
+  function copyText(text) {
+    if (navigator.clipboard?.writeText) {
+      return navigator.clipboard.writeText(text);
+    }
+
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    textArea.style.position = 'fixed';
+    textArea.style.opacity = '0';
+    document.body.appendChild(textArea);
+    textArea.select();
+    document.execCommand('copy');
+    textArea.remove();
+    return Promise.resolve();
+  }
+
+  function setInlineCopyFeedback(button, text) {
+    button.dataset.copyState = text;
+
+    window.setTimeout(() => {
+      if (button.dataset.copyState === text) {
+        delete button.dataset.copyState;
+      }
+    }, 1200);
+  }
+
+  function createFloatingCopyButton() {
+    const button = document.createElement('button');
+    button.className = inlineCopyClass;
+    button.type = 'button';
+    button.textContent = '⧉';
+
+    button.addEventListener('click', function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+
+      if (!currentCodeElement) return;
+
+      const codeText = currentCodeElement.textContent.trim();
+
+      copyText(codeText)
+        .then(() => setInlineCopyFeedback(button, 'copied'))
+        .catch(() => setInlineCopyFeedback(button, 'failed'));
+    });
+
+    document.body.appendChild(button);
+
+    return button;
+  }
+
+  function positionButton(codeElement) {
+    const rect = codeElement.getBoundingClientRect();
+
+    floatingCopyButton.style.left =
+      window.scrollX + rect.right - floatingCopyButton.offsetWidth + 'px';
+
+    floatingCopyButton.style.top =
+      window.scrollY + rect.top - floatingCopyButton.offsetHeight * 0.5 + rect.height * 0.5 + 'px';
+  }
+
+  function showButton(codeElement) {
+    currentCodeElement = codeElement;
+    positionButton(codeElement);
+    floatingCopyButton.dataset.visible = 'true';
+  }
+
+  function hideButton() {
+    currentCodeElement = null;
+    delete floatingCopyButton.dataset.visible;
+  }
+
+  function enhanceInlineCode(codeElement) {
+    if (
+      codeElement.closest('pre') ||
+      codeElement.classList.contains(inlineCodeClass)
+    ) {
+      return;
+    }
+
+    codeElement.classList.add(inlineCodeClass);
+
+    codeElement.addEventListener('pointerenter', () => {
+      showButton(codeElement);
+    });
+
+    codeElement.addEventListener('pointerleave', () => {
+      hideButton();
+    });
+  }
+
+  function refreshInlineCodeCopyButtons() {
+    document.querySelectorAll('.markdown-container code').forEach(enhanceInlineCode);
+  }
+
+  function initInlineCopy() {
+    floatingCopyButton = createFloatingCopyButton();
+
+    window.addEventListener('scroll', () => {
+      if (currentCodeElement) positionButton(currentCodeElement);
+    });
+
+    window.addEventListener('resize', () => {
+      if (currentCodeElement) positionButton(currentCodeElement);
+    });
+
+    refreshInlineCodeCopyButtons();
+  }
+
   function refreshEnhancements() {
     refreshMessageNavigation();
     refreshCodeCopyButtons();
+    refreshInlineCodeCopyButtons();
   }
 
   function observeMessages() {
@@ -124,6 +238,8 @@
     document.documentElement.dataset.siteEnhancer = 'gapgpt';
     refreshEnhancements();
     observeMessages();
+    initInlineCopy();
+
     enhancer?.log('GapGPT enhancements loaded');
   }
 
