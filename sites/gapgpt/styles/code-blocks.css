@@ -16,7 +16,7 @@ pre:has(> .site-enhancer-code-footer) {
 .site-enhancer-code-collapse {
   position: absolute;
   top: 3px;
-  right: 2.35rem;
+  right: calc(50% - 0.875rem);
   width: 1.75rem;
   height: 1.75rem;
   border: 0;
