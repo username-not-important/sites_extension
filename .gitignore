@@ -1,0 +1,39 @@
+# Dependencies
+node_modules/
+npm-debug.log
+yarn-error.log
+yarn.lock
+package-lock.json
+
+# Build Outputs (Adjust these if you use a different build folder)
+dist/
+build/
+out/
+.parcel-cache/
+.vite/
+
+# Security - CRITICAL
+# .pem files are your private signing keys. 
+# NEVER commit these to a public or shared repository.
+*.pem
+
+# Chrome/Browser Artifacts
+*.crx
+
+# Environment & Config
+.env
+.env.local
+.env.*.local
+config.json
+
+# IDE & Editor Files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.kilo/
+
+# OS Files
+.DS_Store
+Thumbs.db
+desktop.ini

@@ -1,0 +1,47 @@
+.site-enhancer-inline-code-copy {
+  position: absolute;
+  z-index: 9999;
+
+  background: var(--message-surface, rgba(127, 127, 127, 0.16));
+  color: var(--text-secondary, currentColor);
+  border: none;
+  border-radius: 0.35rem;
+
+  min-width: 1.4rem;
+  height: 1.4rem;
+  padding: 0 0.35rem;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  line-height: 1;
+  white-space: nowrap;
+
+  cursor: pointer;
+
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-5px);
+  transition:
+    opacity 150ms ease,
+    transform 150ms ease,
+    background-color 120ms ease,
+    padding 120ms ease;
+}
+
+.site-enhancer-inline-code-copy[data-visible="true"] {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(0);
+}
+
+.site-enhancer-inline-code-copy:hover {
+  background: #363636;
+}
+
+.site-enhancer-inline-code-copy[data-copy-state="copied"]::before {
+  content: "✓";
+  color: green;
+  padding: 0 0.5rem;
+}

@@ -13,8 +13,20 @@
     },
     {
       "matches": ["https://gapgpt.app/*"],
-      "js": ["content.js", "sites/gapgpt/content.js"],
-      "css": ["sites/gapgpt/styles.css"],
+      "js": [
+        "content.js",
+        "sites/gapgpt/content.js",
+        "sites/gapgpt/modules/message-navigation.js",
+        "sites/gapgpt/modules/code-blocks.js",
+        "sites/gapgpt/modules/inline-code-copy.js"
+      ],
+      "css": [
+        "sites/gapgpt/styles.css",
+        "sites/gapgpt/styles/base.css",
+        "sites/gapgpt/styles/message-navigation.css",
+        "sites/gapgpt/styles/code-blocks.css",
+        "sites/gapgpt/styles/inline-code-copy.css"
+      ],
       "run_at": "document_start"
     }
   ],

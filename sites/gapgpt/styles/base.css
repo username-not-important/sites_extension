@@ -1,0 +1,22 @@
+.footer__disclaimer,
+.native-ad-dialog,
+.native-banner-input-ad {
+  display: none !important;
+}
+
+.q-infinite-scroll > [id^="message-"] .user-chat-box,
+.q-infinite-scroll > [id^="message-"] .bot-chat-box {
+  display: flex !important;
+  align-items: flex-start;
+  position: relative;
+  scroll-margin-top: 5rem;
+}
+
+.q-infinite-scroll > [id^="message-"] .user-chat-box > :not(.site-enhancer-message-nav) {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.input-container-v2 {
+  margin-bottom: 0 !important;
+}
