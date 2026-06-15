@@ -1,0 +1,98 @@
+.markdown-body p {
+  white-space: pre-wrap;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #374151 !important;
+}
+
+.dark .markdown-body p {
+  color: #e3e3e3 !important;
+}
+
+.markdown-body p strong {
+  color: #111827 !important;
+  font-weight: 600 !important;
+}
+
+.dark .markdown-body p strong {
+  color: #ffffff !important;
+}
+
+.markdown-body ol,
+.markdown-body ul {
+  padding-left: 1.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+}
+
+.markdown-body li {
+  margin-bottom: 0.25rem;
+}
+
+.markdown-body .rtl ol,
+.markdown-body .rtl ul {
+  padding-left: 0;
+  padding-right: 1.5rem;
+}
+
+.markdown-body .code-block-wrapper {
+  background-color: #f6f8fa !important;
+  border: 1px solid #e1e4e8 !important;
+  border-radius: 0.75rem !important;
+  margin: 1rem 0 !important;
+  padding-top: 1.5rem !important;
+  box-shadow: none !important;
+  overflow: hidden;
+}
+
+.dark .markdown-body .code-block-wrapper {
+  background-color: #1e1e1f !important;
+  background-image: none !important;
+  border: 1px solid #2f3336 !important;
+  box-shadow: none !important;
+}
+
+.markdown-body .code-block-header {
+  background-color: #eaeef2 !important;
+  color: #57606a !important;
+  font-family: var(--font-mono) !important;
+  font-size: 13px;
+  height: 2.5rem;
+  border-bottom: 1px solid #e1e4e8 !important;
+  box-shadow: none !important;
+}
+
+.dark .markdown-body .code-block-header {
+  background-color: #2d2f31 !important;
+  background-image: none !important;
+  color: #c9d1d9 !important;
+  border-bottom: 1px solid #2f3336 !important;
+  box-shadow: none !important;
+}
+
+.markdown-body pre code {
+  font-family: var(--font-mono) !important;
+  font-size: 14px !important;
+  line-height: 1.65 !important;
+  direction: ltr !important;
+}
+
+.markdown-body .code-block-body {
+  padding: 1rem !important;
+  background: transparent !important;
+}
+
+.markdown-body .code-block-header__copy:hover {
+  color: #1a73e8 !important;
+}
+
+.dark .markdown-body .code-block-header__copy:hover {
+  color: #a8c7fa !important;
+}
+
+html.dark pre code.hljs {
+  box-shadow: none !important;
+}

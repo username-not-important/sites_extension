@@ -1,0 +1,28 @@
+:root {
+  --font-primary: "ui-sans-serif", -apple-system, "system-ui", "Segoe UI", "Roboto", "Noto Sans", "Helvetica", "Apple Color Emoji", "Arial", "sans-serif", "Segoe UI Emoji", "Segoe UI Symbol", "Segoe UI Emoji";
+  --font-mono: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+  --n-color: #1e1e1f;
+}
+
+.chat-index-wrapper {
+  font-family: var(--font-primary) !important;
+}
+
+textarea.modern-textarea {
+  direction: ltr !important;
+  text-align: left !important;
+  font-family: var(--font-primary) !important;
+}
+
+.toolbar-left {
+  justify-content: flex-start !important;
+}
+
+.toolbar-right {
+  justify-content: flex-end !important;
+}
+
+.footer-disclaimer {
+  display: none !important;
+}

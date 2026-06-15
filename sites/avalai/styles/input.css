@@ -1,0 +1,50 @@
+.chat-fade-overlay {
+  display: none;
+}
+
+div.input-container-wrapper {
+  border-radius: 1.5rem !important;
+  border: 1px solid #e3e3e3 !important;
+  box-shadow: none !important;
+  transition: all 0.2s ease !important;
+  background-color: #ffffff !important;
+}
+
+.dark div.input-container-wrapper {
+  border: 1px solid #3c4043 !important;
+  border-bottom-width: 0;
+  box-shadow: none !important;
+  background-color: #1e1e1f !important;
+  border-radius: 15px 15px 0 0 !important;
+}
+
+.is-focused div.input-container-wrapper {
+  border-color: #1a73e8 !important;
+  box-shadow: 0 0 0 1px #1a73e8 !important;
+}
+
+.dark .is-focused div.input-container-wrapper {
+  border-color: #a8c7fa !important;
+  box-shadow: 0 0 0 1px #a8c7fa !important;
+}
+
+.is-recording .input-toolbar {
+  background-color: rgba(0, 0, 0, 0.02) !important;
+}
+
+.dark .is-recording .input-toolbar {
+  background-color: rgba(255, 255, 255, 0.02) !important;
+}
+
+.new-input-area {
+  max-width: 72rem !important;
+}
+
+.modern-textarea {
+  padding: 15px 15px 0;
+}
+
+.action-button {
+  border-radius: 20% !important;
+  background-color: #161616 !important;
+}

@@ -7,8 +7,18 @@
   "content_scripts": [
     {
       "matches": ["https://chat.avalai.ir/chat*"],
-      "js": ["content.js", "sites/avalai/content.js"],
-      "css": ["sites/avalai/styles.css"],
+      "js": [
+        "content.js",
+        "sites/avalai/content.js",
+        "sites/avalai/modules/page-ready-log.js"
+      ],
+      "css": [
+        "sites/avalai/styles.css",
+        "sites/avalai/styles/base.css",
+        "sites/avalai/styles/layout.css",
+        "sites/avalai/styles/markdown.css",
+        "sites/avalai/styles/input.css"
+      ],
       "run_at": "document_start"
     },
     {
