@@ -9,10 +9,8 @@
   font-family: var(--font-primary) !important;
 }
 
-textarea.modern-textarea {
-  direction: ltr !important;
-  text-align: left !important;
-  font-family: var(--font-primary) !important;
+.n-image {
+  border-radius: 10px;
 }
 
 .toolbar-left {

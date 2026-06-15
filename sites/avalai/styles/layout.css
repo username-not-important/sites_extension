@@ -62,3 +62,18 @@
 .dark .n-dropdown-menu {
   background-color: #1e1e1e !important;
 }
+
+.n-popover-arrow-wrapper {
+  display: none;
+}
+
+.sm-content-area {
+  margin-left: 0;
+}
+
+.item-link {
+  min-height: 2.75rem;
+  border-radius: 0 7px 7px 0;
+  padding-left: 0.5rem;
+  transition: background-color 0.1s ease !important;
+}

@@ -2,9 +2,16 @@
   display: none;
 }
 
+textarea.modern-textarea {
+  direction: ltr !important;
+  text-align: left !important;
+  font-family: var(--font-primary) !important;
+}
+
 div.input-container-wrapper {
   border-radius: 1.5rem !important;
   border: 1px solid #e3e3e3 !important;
+  border-bottom-width: 0;
   box-shadow: none !important;
   transition: all 0.2s ease !important;
   background-color: #ffffff !important;
@@ -19,12 +26,11 @@ div.input-container-wrapper {
 }
 
 .is-focused div.input-container-wrapper {
-  border-color: #1a73e8 !important;
+  border-bottom-width: 0;
   box-shadow: 0 0 0 1px #1a73e8 !important;
 }
 
 .dark .is-focused div.input-container-wrapper {
-  border-color: #a8c7fa !important;
   box-shadow: 0 0 0 1px #a8c7fa !important;
 }
 
