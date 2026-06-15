@@ -101,14 +101,89 @@ pre:has(> .site-enhancer-code-footer) {
   overflow: hidden;
 }
 
+.site-enhancer-code-collapsible > .site-enhancer-code-header {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding-right: 2.65rem;
+}
+
+.site-enhancer-code-collapsible > .site-enhancer-code-header .language-label {
+  min-width: 0;
+}
+
+.site-enhancer-code-collapse {
+  position: absolute;
+  top: 3px;
+  right: 2.35rem;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-primary)!important;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  line-height: 1;
+  transition:
+    background-color 140ms ease,
+    transform 180ms ease;
+  z-index: 3;
+}
+
+.site-enhancer-code-collapse::before {
+  content: "";
+  width: 0.5rem;
+  height: 0.5rem;
+  border-top: 2px solid currentColor;
+  border-left: 2px solid currentColor;
+  transform: translateY(0.15rem) rotate(45deg);
+}
+
+.site-enhancer-code-collapse:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.site-enhancer-code-collapse:focus-visible {
+  outline: 2px solid var(--link-color, #3a88ff);
+  outline-offset: 2px;
+}
+
+.site-enhancer-code-collapsible > code {
+  display: block;
+  overflow: hidden;
+  transition:
+    max-height 220ms ease,
+    opacity 180ms ease,
+    padding-top 220ms ease,
+    padding-bottom 220ms ease;
+}
+
+.site-enhancer-code-collapsible[data-collapsed="true"] > .site-enhancer-code-header .site-enhancer-code-collapse {
+  transform: rotate(180deg);
+}
+
+.site-enhancer-code-collapsible[data-collapsed="true"] > code {
+  max-height: 0 !important;
+  opacity: 0;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.site-enhancer-code-collapsible[data-collapsed="true"] > .site-enhancer-code-footer {
+  display: none;
+}
+
 .site-enhancer-code-footer {
   position: sticky;
-  bottom: 0;
+  bottom: 40px;
   display: flex;
   justify-content: flex-end;
   padding: 0.25rem 0.35rem;
-  background: var(--highlight-header, rgba(47, 47, 47, 0.96));
-  border-top: 1px solid var(--border-light, rgba(255, 255, 255, 0.1));
+  background: none;
   z-index: 2;
 }
 

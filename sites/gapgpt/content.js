@@ -4,6 +4,8 @@
   const controlsClass = 'site-enhancer-message-nav';
   const bottomCopyClass = 'site-enhancer-code-footer';
   const inlineCopyClass = 'site-enhancer-inline-code-copy';
+  const collapsibleCodeClass = 'site-enhancer-code-collapsible';
+  const collapseButtonClass = 'site-enhancer-code-collapse';
 
   let currentCodeElement = null;
   let hideTimeout = null;
@@ -103,8 +105,72 @@
     codeBlock.appendChild(footer);
   }
 
+  function setCodeBlockCollapsed(codeBlock, collapsed) {
+    const codeBody = codeBlock.querySelector(':scope > code');
+    const collapseButton = codeBlock.querySelector(`:scope > .code-header .${collapseButtonClass}`);
+
+    if (!codeBody) {
+      return;
+    }
+
+    codeBlock.dataset.collapsed = String(collapsed);
+    collapseButton?.setAttribute('aria-expanded', String(!collapsed));
+    collapseButton?.setAttribute('title', collapsed ? 'Expand code' : 'Collapse code');
+    collapseButton?.setAttribute('aria-label', collapsed ? 'Expand code' : 'Collapse code');
+
+    if (collapsed) {
+      codeBody.style.maxHeight = `${codeBody.scrollHeight}px`;
+      codeBody.offsetHeight;
+      codeBody.style.maxHeight = '0px';
+      return;
+    }
+
+    codeBody.style.maxHeight = `${codeBody.scrollHeight}px`;
+
+    codeBody.addEventListener('transitionend', function handleTransition(event) {
+      if (event.propertyName !== 'max-height' || codeBlock.dataset.collapsed === 'true') {
+        return;
+      }
+
+      codeBody.style.maxHeight = '';
+      codeBody.removeEventListener('transitionend', handleTransition);
+    });
+  }
+
+  function addCodeCollapseButton(codeBlock) {
+    const header = codeBlock.querySelector(':scope > .code-header');
+    const codeBody = codeBlock.querySelector(':scope > code');
+
+    if (!header || !codeBody) {
+      return;
+    }
+
+    codeBlock.classList.add(collapsibleCodeClass);
+    header.classList.add('site-enhancer-code-header');
+
+    if (header.querySelector(`:scope > .${collapseButtonClass}`)) {
+      return;
+    }
+
+    const button = document.createElement('button');
+    button.className = collapseButtonClass;
+    button.type = 'button';
+    button.title = 'Collapse code';
+    button.setAttribute('aria-label', 'Collapse code');
+    button.setAttribute('aria-expanded', 'true');
+
+    button.addEventListener('click', function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+      setCodeBlockCollapsed(codeBlock, codeBlock.dataset.collapsed !== 'true');
+    });
+
+    header.appendChild(button);
+  }
+
   function refreshCodeCopyButtons() {
     document.querySelectorAll('pre').forEach(function (codeBlock) {
+      addCodeCollapseButton(codeBlock);
       addBottomCopyButton(codeBlock);
     });
   }
@@ -157,6 +223,8 @@
   function initDelegation() {
     // Use event delegation on the document for efficiency
     document.addEventListener('pointerenter', (e) => {
+      if (!e.target) return;
+
       const code = e.target.closest('.markdown-container code:not(pre code)');
       if (!code) return;
       
@@ -169,6 +237,8 @@
     }, true);
 
     document.addEventListener('pointerleave', (e) => {
+      if (!e.target) return;
+      
       if (e.target.closest('.markdown-container code:not(pre code)')) {
         scheduleHide();
       }
