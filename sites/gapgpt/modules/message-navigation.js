@@ -31,29 +31,30 @@
     });
   }
 
-  function getVisibleMessageRange(messages) {
-    let firstVisibleIndex = -1;
-    let lastVisibleIndex = -1;
+  function findPreviousMessageTarget(messages) {
+    for (let index = messages.length - 1; index >= 0; index -= 1) {
+      const message = messages[index];
 
-    messages.forEach(function (message, index) {
-      const rect = message.getBoundingClientRect();
-      const isVisible = rect.bottom > 0 && rect.top < window.innerHeight;
-
-      if (!isVisible) {
-        return;
+      if (message.getBoundingClientRect().top < 0) {
+        return message;
       }
+    }
 
-      if (firstVisibleIndex === -1) {
-        firstVisibleIndex = index;
+    return null;
+  }
+
+  function findNextMessageTarget(messages) {
+    const sightLine = window.innerHeight * 0.5;
+
+    for (let index = 0; index < messages.length; index += 1) {
+      const message = messages[index];
+
+      if (message.getBoundingClientRect().top >= sightLine) {
+        return message;
       }
+    }
 
-      lastVisibleIndex = index;
-    });
-
-    return {
-      firstVisibleIndex,
-      lastVisibleIndex,
-    };
+    return null;
   }
 
   function ensureNavigationControls() {
@@ -69,21 +70,19 @@
 
       previousButton = createButton('previous', 'Scroll to previous message', function () {
         const messages = getMessages();
-        const { firstVisibleIndex } = getVisibleMessageRange(messages);
-        const targetIndex = firstVisibleIndex > 0 ? firstVisibleIndex - 1 : 0;
+        const target = findPreviousMessageTarget(messages);
 
-        if (messages[targetIndex]) {
-          scrollToMessage(messages[targetIndex]);
+        if (target) {
+          scrollToMessage(target);
         }
       });
 
       nextButton = createButton('next', 'Scroll to next message', function () {
         const messages = getMessages();
-        const { lastVisibleIndex } = getVisibleMessageRange(messages);
-        const targetIndex = lastVisibleIndex >= 0 ? lastVisibleIndex + 1 : messages.length - 1;
+        const target = findNextMessageTarget(messages);
 
-        if (messages[targetIndex]) {
-          scrollToMessage(messages[targetIndex]);
+        if (target) {
+          scrollToMessage(target);
         }
       });
 
@@ -111,9 +110,8 @@
       return;
     }
 
-    const { firstVisibleIndex, lastVisibleIndex } = getVisibleMessageRange(messages);
-    const hasPrevious = firstVisibleIndex > 0;
-    const hasNext = lastVisibleIndex !== -1 && lastVisibleIndex < messages.length - 1;
+    const hasPrevious = Boolean(findPreviousMessageTarget(messages));
+    const hasNext = Boolean(findNextMessageTarget(messages));
 
     if (previousButton) {
       previousButton.hidden = !hasPrevious;
