@@ -158,13 +158,27 @@
     }
 
     listenersBound = true;
-    window.addEventListener('scroll', scheduleUpdate, { passive: true });
+
+    const host = getHost();
+    if (!host) {
+      return;
+    }
+
+    host.addEventListener('scroll', scheduleUpdate, { passive: true });
     window.addEventListener('resize', scheduleUpdate);
   }
 
   gapgpt.register('messageNavigation', {
     init() {
-      bindListeners();
+      const tryBind = () => {
+        const host = getHost();
+        if (host) {
+          bindListeners();
+        } else {
+          setTimeout(tryBind, 100);
+        }
+      };
+      tryBind();
     },
 
     refresh() {

@@ -80,7 +80,7 @@ pre:has(> .site-enhancer-code-footer) {
 
 .site-enhancer-code-footer {
   position: sticky;
-  bottom: 40px;
+  bottom: 0;
   display: flex;
   justify-content: flex-end;
   padding: 0.25rem 0.35rem;
