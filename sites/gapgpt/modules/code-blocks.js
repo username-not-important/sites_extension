@@ -45,6 +45,7 @@
 
   function setCodeBlockCollapsed(codeBlock, collapsed) {
     const codeBody = codeBlock.querySelector(':scope > code');
+    const lineNumbers = codeBlock.querySelector(':scope > .site-enhancer-line-numbers');
     const collapseButton = codeBlock.querySelector(`:scope > .code-header .${collapseButtonClass}`);
 
     if (!codeBody) {
@@ -60,10 +61,20 @@
       codeBody.style.maxHeight = `${codeBody.scrollHeight}px`;
       codeBody.offsetHeight;
       codeBody.style.maxHeight = '0px';
+
+      if (lineNumbers) {
+        lineNumbers.style.maxHeight = `${lineNumbers.scrollHeight}px`;
+        lineNumbers.offsetHeight;
+        lineNumbers.style.maxHeight = '0px';
+      }
       return;
     }
 
     codeBody.style.maxHeight = `${codeBody.scrollHeight}px`;
+
+    if (lineNumbers) {
+      lineNumbers.style.maxHeight = `${lineNumbers.scrollHeight}px`;
+    }
 
     codeBody.addEventListener('transitionend', function handleTransition(event) {
       if (event.propertyName !== 'max-height' || codeBlock.dataset.collapsed === 'true') {
@@ -71,6 +82,11 @@
       }
 
       codeBody.style.maxHeight = '';
+
+      if (lineNumbers) {
+        lineNumbers.style.maxHeight = '';
+      }
+
       codeBody.removeEventListener('transitionend', handleTransition);
     });
   }

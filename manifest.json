@@ -28,14 +28,16 @@
         "sites/gapgpt/content.js",
         "sites/gapgpt/modules/message-navigation.js",
         "sites/gapgpt/modules/code-blocks.js",
-        "sites/gapgpt/modules/inline-code-copy.js"
+        "sites/gapgpt/modules/inline-code-copy.js",
+        "sites/gapgpt/modules/code-line-numbers.js"
       ],
       "css": [
         "sites/gapgpt/styles.css",
         "sites/gapgpt/styles/base.css",
         "sites/gapgpt/styles/message-navigation.css",
         "sites/gapgpt/styles/code-blocks.css",
-        "sites/gapgpt/styles/inline-code-copy.css"
+        "sites/gapgpt/styles/inline-code-copy.css",
+        "sites/gapgpt/styles/code-line-numbers.css"
       ],
       "run_at": "document_start"
     }

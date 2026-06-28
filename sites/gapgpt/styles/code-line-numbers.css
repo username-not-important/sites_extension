@@ -1,0 +1,45 @@
+/* Code block layout with grid: header on top, line-numbers + code below */
+pre.site-enhancer-code-collapsible {
+  display: grid !important;
+  grid-template-rows: auto 1fr;
+  grid-template-columns: auto 1fr;
+  overflow-x: auto;
+}
+
+.code-header {
+  grid-column: 1 / -1;
+  grid-row: 1;
+}
+
+.site-enhancer-line-numbers {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  text-align: right;
+  user-select: none;
+  color: var(--line-number-color, #888);
+  font-size: 0.9em;
+  line-height: var(--line-height);
+  padding: 0 8px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-right: 1px solid var(--line-number-border, #444);
+  background-color: var(--line-number-bg, #1e1e1e);
+  min-width: 45px;
+  grid-row: 2;
+  grid-column: 1;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+}
+
+.site-enhancer-line-number {
+  display: block;
+  height: 1.5em;
+  padding: 0;
+}
+
+pre.site-enhancer-code-collapsible > code {
+  grid-row: 2;
+  grid-column: 2;
+  overflow-x: auto;
+}

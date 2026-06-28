@@ -20,3 +20,18 @@
 .input-container-v2 {
   margin-bottom: 0 !important;
 }
+
+.markdown-container > div > * {
+  animation: fadeSlideIn 0.3s ease-out;
+}
+
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
